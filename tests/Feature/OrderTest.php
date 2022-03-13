@@ -73,23 +73,23 @@ class OrderTest extends TestCase
      */
     public function order_line_contains_product_and_related_products()
     {
-        $orderLine = $this->createOrderLine(90, [40, 75], 2);
+        $orderLine = $this->createOrderLine(10, [10, 10], 2);
 
 
         $this->order->recalculate();
 
         $this->assertCount(2, $orderLine->relatedProducts);
-        $this->assertEquals(410, $orderLine->total);
-        $this->assertEquals(410, $this->order->total);
+        $this->assertEquals(60, $orderLine->total);
+        $this->assertEquals(60, $this->order->total);
 
         $this->assertDatabaseHas('order_lines', [
             'id' => $orderLine->id,
-            'total' => 410
+            'total' => 60
         ]);
 
         $this->assertDatabaseHas('orders', [
             'id' => $this->order->id,
-            'total' => 410
+            'total' => 60
         ]);
 
         $orderLine2 = $this->createOrderLine(10, [10, 10, 10], 1);
@@ -104,11 +104,11 @@ class OrderTest extends TestCase
             'total' => 40
         ]);
 
-        $this->assertEquals(450, $this->order->total);
+        $this->assertEquals(100, $this->order->total);
 
         $this->assertDatabaseHas('orders', [
             'id' => $this->order->id,
-            'total' => 450
+            'total' => 100
         ]);
     }
 
@@ -126,6 +126,7 @@ class OrderTest extends TestCase
             RelatedProduct::factory()
                 ->hasAttached($orderLine, [
                     'price' => $price,
+                    'quantity' => 1
                 ])
                 ->create(compact('price'))
         );

@@ -13,7 +13,9 @@ return new class extends Migration
             $table->foreignId('order_line_id')->constrained()->cascadeOnDelete();
             $table->foreignId('related_product_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title')->nullable();
-            $table->unsignedDecimal('price', places: 2);
+            $table->unsignedDecimal('price', places: 2)->default(0);
+            $table->unsignedSmallInteger('quantity')->default(1);
+            $table->unsignedDecimal('total', places: 2)->storedAs('price * quantity')->nullable();
             $table->timestamps();
         });
     }

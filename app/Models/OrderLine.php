@@ -34,7 +34,7 @@ class OrderLine extends Model
     public function relatedProducts(): BelongsToMany
     {
         return $this->belongsToMany(RelatedProduct::class)
-            ->withPivot('price', 'title')
+            ->withPivot('price', 'title', 'total', 'quantity')
             ->withTimestamps();
     }
 
@@ -47,7 +47,7 @@ class OrderLine extends Model
 
     public function total()
     {
-        return ($this->product->price + $this->relatedProducts()->sum('related_products.price')) * $this->quantity;
+        return ($this->product->price + $this->relatedProducts()->sum('order_line_related_product.total')) * $this->quantity;
     }
 
 
