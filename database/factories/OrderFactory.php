@@ -17,7 +17,7 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id' => Customer::factory(),
-            'notes' => $this->faker->text(500)
+            'notes' => $this->faker->text(200)
         ];
     }
 }
